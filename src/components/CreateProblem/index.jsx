@@ -41,20 +41,18 @@ const CreateProblem = ({ closeCreateModal, examPaperListId }) => {
 
   const handleSave = useCallback(async () => {
     try {
-      await axios
-        .post(`/api/examPaper/${examPaperListId}/create`, {
-          title,
-          answer,
-          choices,
-        })
-        .then((response) => {
-          resetInput();
-          mutate(`/api/examPaper/${examPaperListId}/modify`);
-        });
+      await axios.post(`/api/examPaper/${examPaperListId}/create`, {
+        title,
+        answer,
+        choices,
+      });
+      resetInput();
+      mutate(`/api/examPaper/${examPaperListId}/modify`);
     } catch (error) {
       console.error(error);
+      alert("문제 생성에 실패했습니다.");
     }
-  }, [title, answer, choices]);
+  }, [title, answer, choices, examPaperListId, mutate, resetInput]);
 
   return (
     <ModalContainer onClick={closeCreateModal}>

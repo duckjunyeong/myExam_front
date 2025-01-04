@@ -1,4 +1,4 @@
-import React, { Children, useCallback, useState } from "react";
+import React, { useCallback, useState } from "react";
 import {
   ModalContainer,
   ModalWindow,
@@ -22,8 +22,6 @@ const ModifyExamProblem = ({ problem, examPaperListId, closeEditModalOn }) => {
   const [answer, onChangeAnswer, setAnswer] = useInput(problem.correct);
   const [choices, setChoices] = useState(JSON.parse(problem.choice));
 
-  console.log(title);
-  console.log(answer);
   const handleChoiceChange = useCallback(
     (index, value) => {
       const preChoices = [...choices];
@@ -35,24 +33,21 @@ const ModifyExamProblem = ({ problem, examPaperListId, closeEditModalOn }) => {
 
   const handleSave = useCallback(async () => {
     try {
-      await axios
-        .put(`/api/examPaper/${examPaperListId}/create`, {
-          title,
-          answer,
-          choices,
-        })
-        .then((response) => {
-          mutate(`/api/examPaper/${examPaperListId}/modify`);
-        });
+      await axios.put(`/api/examPaper/${problem.id}`, {
+        title,
+        answer,
+        choices,
+      });
+      mutate(`/api/examPaper/${examPaperListId}/modify`);
     } catch (error) {
       console.error(error);
     }
-  }, [title, answer, choices]);
+  }, [title, answer, choices, problem?.id, examPaperListId]);
 
   return (
     <ModalContainer onClick={closeEditModalOn}>
       <ModalWindow onClick={(e) => e.stopPropagation()}>
-        <ModalTitle>문제 생성</ModalTitle>
+        <ModalTitle>문제 수정</ModalTitle>
         <InputContainer>
           <Label htmlFor="title">제목</Label>
           <InputField

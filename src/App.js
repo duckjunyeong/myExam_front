@@ -5,6 +5,7 @@ import SignUp from "@pages/SignUp";
 import Main from "@pages/Main";
 import ModifyExamPaper from "@pages/ModifyExamPaper";
 import CreatePaperList from "@pages/CreatePaperList";
+import ExamPaper from "@components/ExamPaper";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         path="main/examPaperList/:examTypeId/create"
         element={<CreatePaperList />}
       ></Route>
+      <Route path="/main/examPaper/:id" element={<ExamPaper />} />
       <Route
         path="main/examPaper/:examPaperListId/modify"
         element={<ModifyExamPaper />}

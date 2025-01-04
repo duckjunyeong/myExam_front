@@ -6,6 +6,8 @@ import {
 } from "@components/ExamTypeList/styles";
 
 import ExamPaperList from "@components/ExamPaperList";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const ExamTypeList = memo(({ examTypeList }) => {
   console.log("ExamTypeList 리렌더링!!");
@@ -13,14 +15,18 @@ const ExamTypeList = memo(({ examTypeList }) => {
   const [closeExamPaper, setCloseExamPaper] = useState(false);
   const [curExamTypeId, setCurExamTypeId] = useState(null);
 
-  const onClickExamType = useCallback((index) => {
-    try {
-      setShowExamPaper(true);
-      setCurExamTypeId(index);
-    } catch (error) {
-      console.error(error);
-    }
-  }, []);
+  const onClickExamType = useCallback(
+    (index) => {
+      try {
+        setShowExamPaper(true);
+        setCurExamTypeId(index);
+      } catch (error) {
+        console.error(error);
+        toast.error("시험 목록을 불러오는 데 실패했습니다.");
+      }
+    },
+    [setShowExamPaper, setCurExamTypeId]
+  );
 
   const onClickCloseExamList = useCallback(() => {
     setShowExamPaper(false);

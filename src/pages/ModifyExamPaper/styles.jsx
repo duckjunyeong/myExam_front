@@ -218,3 +218,16 @@ export const EditorSettingsContent = styled.p`
   margin-bottom: 10px;
   background-color: #ffffe0;
 `;
+
+export const BackButton = styled.button`
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+`;
+
+export const BackIcon = styled.span`
+  font-size: 20px;
+`;
