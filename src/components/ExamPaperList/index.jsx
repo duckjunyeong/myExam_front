@@ -1,8 +1,8 @@
 import React, { useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   ModalContainer,
   ModalWindow,
-  CloseButton,
   CompanyLogo,
   WelcomeMessage,
   AppGrid,
@@ -18,22 +18,30 @@ import useSWR from "swr";
 import fetcher from "@utils/fetcher";
 import { Link } from "react-router";
 import axios from "axios";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const ExamPaperList = ({ closeModal, examType }) => {
+  const navigate = useNavigate();
+
   const { data, error, mutate } = useSWR(
     `api/examPaperList/${examType.id}`,
     fetcher
   );
 
-  const onClickDeleteExamPaper = useCallback(async (id) => {
-    try {
-      console.log(id);
-      await axios
-        .delete(`/api/examPaper/${id}/delete`)
-        .then(() => console.log("데이터가 삭제되었습니다."));
-    } catch (error) {
-      console.error(error);
-    }
-  }, []);
+  const onClickDeleteExamPaper = useCallback(
+    async (id) => {
+      try {
+        await axios.delete(`/api/examPaper/${id}/delete`);
+        toast.success("시험지가 삭제되었습니다.");
+        mutate(); // Refresh the exam paper list
+      } catch (error) {
+        console.error(error);
+        toast.error("시험지 삭제에 실패했습니다.");
+      }
+    },
+    [mutate, toast]
+  );
 
   return (
     <ModalContainer onClick={closeModal}>
@@ -57,7 +65,9 @@ const ExamPaperList = ({ closeModal, examType }) => {
                   </AppIcon>
                   <AppName>{data.title}</AppName>
                   <Link to={`/main/examPaper/${data.id}/modify`}>수정</Link>
-                  <button>시함</button>
+                  <button onClick={() => navigate(`/examPaper/${data.id}`)}>
+                    시험
+                  </button>
                   <button>결과</button>
                   <button
                     onClick={() => {

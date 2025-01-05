@@ -37,13 +37,6 @@ export const Subtitle = styled.p`
   text-align: center;
 `;
 
-export const Error = styled.p`
-  font-size: 14px;
-  color: #ff2c2c;
-  margin-bottom: 20px;
-  text-align: center;
-`;
-
 export const InputLabel = styled.label`
   display: flex;
   align-items: center;
