@@ -16,6 +16,8 @@ import {
 import useInput from "hooks/useInput";
 import axios from "axios";
 import { mutate } from "swr";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const ModifyExamProblem = ({ problem, examPaperListId, closeEditModalOn }) => {
   const [title, onChangeTitle, setTitle] = useInput(problem.title);
@@ -33,19 +35,22 @@ const ModifyExamProblem = ({ problem, examPaperListId, closeEditModalOn }) => {
 
   const handleSave = useCallback(async () => {
     try {
-      await axios.put(`/api/examPaper/${problem.id}`, {
+      await axios.put(`/api/examProblem/${problem.id}`, {
         title,
         answer,
         choices,
       });
-      mutate(`/api/examPaper/${examPaperListId}/modify`);
+      mutate(`/api/examPaper/${examPaperListId}`);
+      toast.success("시험 문제를 수정하였습니다.");
     } catch (error) {
       console.error(error);
+      toast.error("시험 문제를 수정하지 못 하였습니다.");
     }
   }, [title, answer, choices, problem?.id, examPaperListId]);
 
   return (
     <ModalContainer onClick={closeEditModalOn}>
+      <ToastContainer autoClose={1000} />
       <ModalWindow onClick={(e) => e.stopPropagation()}>
         <ModalTitle>문제 수정</ModalTitle>
         <InputContainer>
@@ -81,7 +86,7 @@ const ModifyExamProblem = ({ problem, examPaperListId, closeEditModalOn }) => {
         </InputContainer>
         <ButtonContainer>
           <CancelButton onClick={closeEditModalOn}>취소</CancelButton>
-          <SaveButton onClick={handleSave}>저장</SaveButton>
+          <SaveButton onClick={handleSave}>수정</SaveButton>
         </ButtonContainer>
       </ModalWindow>
     </ModalContainer>

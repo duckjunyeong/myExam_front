@@ -6,11 +6,10 @@ import {
 } from "@components/ExamTypeList/styles";
 
 import ExamPaperList from "@components/ExamPaperList";
+
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 const ExamTypeList = memo(({ examTypeList }) => {
-  console.log("ExamTypeList 리렌더링!!");
   const [showExamPaper, setShowExamPaper] = useState(false);
   const [closeExamPaper, setCloseExamPaper] = useState(false);
   const [curExamTypeId, setCurExamTypeId] = useState(null);

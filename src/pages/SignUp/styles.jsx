@@ -37,13 +37,18 @@ export const Subtitle = styled.p`
   text-align: center;
 `;
 
+export const Error = styled.p`
+  font-size: 14px;
+  color: #ff2c2c;
+  margin-bottom: 20px;
+  text-align: center;
+`;
 export const InputLabel = styled.label`
   display: flex;
   align-items: center;
   font-size: 14px;
   color: #495057;
   margin-bottom: 5px;
-
   svg {
     margin-right: 10px;
     color: #868e96;
@@ -58,7 +63,6 @@ export const Input = styled.input`
   margin-bottom: 15px;
   font-size: 16px;
   color: #495057;
-
   &:focus {
     outline: none;
     border-color: #80bdff;
@@ -77,7 +81,6 @@ export const Button = styled.button`
   font-size: 18px;
   font-weight: 600;
   cursor: pointer;
-
   &:hover {
     background-color: #0069d9; // Signup 버튼 호버 색상 변경
   }
@@ -89,11 +92,9 @@ export const LoginLink = styled.p`
   color: #868e96;
   margin-top: 15px;
   text-align: center;
-
   a {
     color: #007bff;
     text-decoration: none;
-
     &:hover {
       text-decoration: underline;
     }

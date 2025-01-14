@@ -80,6 +80,13 @@ export const Button = styled.button`
   }
 `;
 
+export const Error = styled.p`
+  font-size: 14px;
+  color: #ff2c2c;
+  margin-bottom: 20px;
+  text-align: center;
+`;
+
 export const SignupLink = styled.p`
   font-size: 14px;
   color: #868e96;

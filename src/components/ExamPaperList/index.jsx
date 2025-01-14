@@ -1,5 +1,5 @@
 import React, { useCallback } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import {
   ModalContainer,
   ModalWindow,
@@ -9,16 +9,12 @@ import {
   AppBox,
   AppIcon,
   AppName,
-  AppDescription,
-  Copyright,
-  CreateExamPaperButton,
   StyledLink,
 } from "@components/ExamPaperList/styles";
 import useSWR from "swr";
 import fetcher from "@utils/fetcher";
-import { Link } from "react-router";
 import axios from "axios";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const ExamPaperList = ({ closeModal, examType }) => {
@@ -40,11 +36,12 @@ const ExamPaperList = ({ closeModal, examType }) => {
         toast.error("시험지 삭제에 실패했습니다.");
       }
     },
-    [mutate, toast]
+    [mutate]
   );
 
   return (
     <ModalContainer onClick={closeModal}>
+      <ToastContainer autoClose={1000} />
       <ModalWindow onClick={(event) => event.stopPropagation()}>
         <CompanyLogo>
           <span>articulate 360</span>
@@ -64,11 +61,9 @@ const ExamPaperList = ({ closeModal, examType }) => {
                     <span>rs</span>
                   </AppIcon>
                   <AppName>{data.title}</AppName>
+                  <Link to={`/examPaper/${data.id}/exam`}>시험</Link>
+                  <Link to={`/examPaper/${data.id}/examResult`}>결과</Link>
                   <Link to={`/main/examPaper/${data.id}/modify`}>수정</Link>
-                  <button onClick={() => navigate(`/examPaper/${data.id}`)}>
-                    시험
-                  </button>
-                  <button>결과</button>
                   <button
                     onClick={() => {
                       onClickDeleteExamPaper(data.id);
@@ -83,11 +78,6 @@ const ExamPaperList = ({ closeModal, examType }) => {
         ) : (
           <div>no data</div>
         )}
-
-        <Copyright>
-          © 2016 Articulate Global, Inc. <a href="#">Legal</a>{" "}
-          <a href="#">Support</a>
-        </Copyright>
       </ModalWindow>
     </ModalContainer>
   );

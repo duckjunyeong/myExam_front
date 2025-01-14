@@ -1,4 +1,4 @@
-import React, { Children, useCallback, useState } from "react";
+import React, { useCallback, useState } from "react";
 import {
   ModalContainer,
   ModalWindow,
@@ -16,8 +16,9 @@ import {
 
 import useInput from "hooks/useInput";
 import { mutate } from "swr";
-import { preconnect } from "react-dom";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const CreateProblem = ({ closeCreateModal, examPaperListId }) => {
   const [title, onChangeTitle, setTitle] = useInput("");
@@ -30,7 +31,7 @@ const CreateProblem = ({ closeCreateModal, examPaperListId }) => {
       preChoices[index] = value;
       setChoices(preChoices);
     },
-    [choices]
+    [setAnswer, setTitle, choices]
   );
 
   const resetInput = useCallback(() => {
@@ -47,15 +48,17 @@ const CreateProblem = ({ closeCreateModal, examPaperListId }) => {
         choices,
       });
       resetInput();
-      mutate(`/api/examPaper/${examPaperListId}/modify`);
+      mutate(`/api/examPaper/${examPaperListId}`);
+      toast.success("문제를 생성하였습니다.");
     } catch (error) {
       console.error(error);
-      alert("문제 생성에 실패했습니다.");
+      toast.error("문제를 생성에 실패하였습니다.");
     }
   }, [title, answer, choices, examPaperListId, mutate, resetInput]);
 
   return (
     <ModalContainer onClick={closeCreateModal}>
+      <ToastContainer autoClose={1000} />
       <ModalWindow onClick={(e) => e.stopPropagation()}>
         <ModalTitle>문제 생성</ModalTitle>
         <InputContainer>
